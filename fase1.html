@@ -1,1 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Correia Escape Room — Fase 1</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: #fff;
+    overflow: hidden;
+  }
+  #game {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    text-align: center;
+  }
+  h1 { margin-top: 20px; }
+  svg { margin-top: 30px; }
+  .polia {
+    fill: radial-gradient(circle, #555 0%, #222 100%);
+    stroke: #666;
+    stroke-width: 8;
+  }
+  #correia {
+    fill: #222;
+    stroke: #555;
+    stroke-width: 3;
+    cursor: grab;
+  }
+  #panel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    padding: 15px;
+    font-size: 18px;
+    height: 140px;
+    overflow-y: auto;
+  }
+</style>
+</head>
+<body>
+<div id="game">
+  <h1>🛠️ Fase 1 — Tensão da Correia Auxiliar</h1>
+  <svg id="motor" width="600" height="300">
+    <circle id="poliaEsq" class="polia" cx="150" cy="150" r="50"></circle>
+    <circle id="poliaDir" class="polia" cx="450" cy="150" r="50"></circle>
+    <rect id="correia" x="200" y="140" width="200" height="25"></rect>
+  </svg>
+  <div id="panel">
+    Mini-desafio 1: Arraste a correia para a posição correta. <br>
+    Fórmula de referência: T = F/2 <br>
+    Tensão alvo: 70 N <br>
+    Cada acerto será registrado, você precisa completar todos 5 mini-desafios!
+  </div>
+</div>
+
+<script>
+let correia = document.getElementById("correia");
+let dragging = false;
+let offsetX = 0;
+
+// Mini-desafios
+let desafios = [
+  {min: 480, max: 520, done:false, msg:"Mini-desafio 1: Tensão inicial"},
+  {min: 460, max: 500, done:false, msg:"Mini-desafio 2: Ajuste fino"},
+  {min: 490, max: 530, done:false, msg:"Mini-desafio 3: Verifique alinhamento"},
+  {min: 470, max: 510, done:false, msg:"Mini-desafio 4: Corrija folga"},
+  {min: 485, max: 525, done:false, msg:"Mini-desafio 5: Tensão perfeita"}
+];
+
+// Drag da correia
+correia.addEventListener("mousedown", e=>{
+  dragging=true;
+  offsetX=e.clientX - correia.getBoundingClientRect().x;
+  correia.style.cursor="grabbing";
+});
+document.addEventListener("mouseup", ()=>dragging=false);
+document.addEventListener("mousemove", e=>{
+  if(dragging){
+    let x = e.clientX - offsetX;
+    if(x<0) x=0; if(x>600) x=600;
+    correia.setAttribute("x", x);
+    checkDesafios(x);
+  }
+});
+
+// Função que verifica cada mini-desafio
+function checkDesafios(x){
+  let panel = document.getElementById("panel");
+  let todos = true;
+  let mensagens = [];
+  desafios.forEach((d, i)=>{
+    if(!d.done){
+      if(x>=d.min && x<=d.max){
+        d.done=true;
+        mensagens.push(`✔ ${d.msg} concluído!`);
+      } else {
+        todos=false;
+      }
+    }
+  });
+  // Atualiza painel
+  if(mensagens.length>0){
+    panel.innerHTML = mensagens.join("<br>") + "<br><br>";
+  }
+  // Verifica se todos concluídos
+  desafios.forEach(d=>{
+    if(!d.done) todos=false;
+  });
+  if(todos){
+    panel.innerHTML += "🎉 Todos os mini-desafios completos! <br>Você pode avançar para a Fase 2!";
+    panel.style.background="rgba(0,200,0,0.6)";
+  } else {
+    panel.innerHTML += "Continue ajustando a correia...";
+    panel.style.background="rgba(200,0,0,0.4)";
+  }
+}
+
+</script>
+</body>
+</html>
 
