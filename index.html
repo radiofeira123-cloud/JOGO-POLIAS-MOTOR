@@ -2,286 +2,277 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Correia Escape Room — Jogo Completo</title>
+<title>Correia Escape Room</title>
 <style>
-    body {
-        margin: 0;
-        background: #111;
-        font-family: Arial;
-        color: #fff;
-        user-select: none;
-    }
-    #game {
-        width: 100vw;
-        height: 100vh;
-        overflow: hidden;
-        position: relative;
-    }
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: #fff;
+    overflow: hidden;
+  }
 
-    .scene {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        display: none;
-        padding: 20px;
-    }
+  #game {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
 
-    .active {
-        display: block;
-    }
+  .scene {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding: 20px;
+  }
 
-    #panel {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        padding: 15px;
-        background: rgba(0,0,0,0.6);
-        font-size: 18px;
-        text-align: center;
-    }
+  .active {
+    display: block;
+  }
 
-    .btn {
-        padding: 10px 20px;
-        border: none;
-        background: #333;
-        color: #fff;
-        border-radius: 8px;
-        margin: 8px;
-        cursor: pointer;
-        font-size: 18px;
-    }
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
 
-    .btn:hover {
-        background: #555;
-    }
+  #panel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    padding: 15px;
+    font-size: 18px;
+    text-align: center;
+    height: 120px;
+  }
 
-    .polia {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        border: 8px solid #666;
-        position: absolute;
-    }
+  .polia {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 8px solid #666;
+    position: absolute;
+    background: radial-gradient(circle, #555 0%, #222 100%);
+  }
 
-    #correia1 {
-        position: absolute;
-        height: 25px;
-        background: #222;
-        border: 3px solid #555;
-        border-radius: 10px;
-        cursor: grab;
-        transition: 0.1s;
-        top: 300px;
-    }
+  #correia {
+    position: absolute;
+    height: 25px;
+    background: #222;
+    border: 3px solid #555;
+    border-radius: 10px;
+    cursor: grab;
+    transition: 0.1s;
+  }
 
-    #capoCarro {
-        font-size: 28px;
-        margin-top: 40px;
-        text-align: center;
-    }
+  .inputBox {
+    background: #222;
+    color: #fff;
+    padding: 8px;
+    border: 1px solid #555;
+    margin-top: 10px;
+    width: 120px;
+    text-align: center;
+    border-radius: 6px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-    .inputBox {
-        background: #222;
-        color: #fff;
-        padding: 8px;
-        border: 1px solid #555;
-        margin-top: 10px;
-        width: 120px;
-        text-align: center;
-        border-radius: 6px;
-    }
+  .btn {
+    display: block;
+    margin: 15px auto;
+    padding: 10px 20px;
+    font-size: 18px;
+    background: #333;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .btn:hover {
+    background: #555;
+  }
+
+  svg {
+    position: absolute;
+    top: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+  }
 </style>
 </head>
 <body>
-
 <div id="game">
 
-<!-- ============================= -->
-<!-- ======   SALA 1  ============ -->
-<!-- ============================= -->
+<!-- ===================== -->
+<!-- ====== SALA 1 ====== -->
+<!-- ===================== -->
 <div id="sala1" class="scene active">
-    <h1>🛠️ Sala 1 — Tensão da Correia Auxiliar</h1>
-    <p>O alternador não gira. Ajuste a tensão da correia arrastando-a.</p>
-
-    <div id="poliaEsq" class="polia" style="left:150px; top:250px; border-color:#8cff8c;"></div>
-    <div id="poliaDir" class="polia" style="right:150px; top:250px; border-color:#8cb8ff;"></div>
-
-    <div id="correia1" style="left:260px; width:500px;"></div>
-
-    <div id="panel">Arraste a correia → Encontre a tensão certa.</div>
+  <h1>🛠️ Fase 1 — Tensão da Correia Auxiliar</h1>
+  <svg id="motor">
+    <circle id="poliaEsq" class="polia" cx="150" cy="150" r="50"></circle>
+    <circle id="poliaDir" class="polia" cx="450" cy="150" r="50"></circle>
+    <rect id="correia" x="200" y="140" width="250" height="25"></rect>
+  </svg>
+  <div id="panel">
+    Arraste a correia para ajustar a tensão. <br>
+    Fórmula: T = F / 2 <br>
+    Tensão necessária: 70 N
+  </div>
 </div>
 
-<!-- ============================= -->
-<!-- ======   SALA 2  ============ -->
-<!-- ============================= -->
+<!-- ===================== -->
+<!-- ====== SALA 2 ====== -->
+<!-- ===================== -->
 <div id="sala2" class="scene">
-    <h1>⚙️ Sala 2 — Sincronização da Correia Dentada</h1>
-    <p>Calcule a rotação correta para sincronizar comando e virabrequim.</p>
-    <p>Se o virabrequim gira a <b>1200 rpm</b> e sua polia tem <b>3 cm</b>, enquanto o comando tem <b>6 cm</b>…</p>
-    <p>Qual a rotação do comando?</p>
-
-    <input id="rpmComando" class="inputBox" placeholder="rpm">
-    <button class="btn" onclick="checkSala2()">Confirmar</button>
-
-    <div id="panel2" style="margin-top:20px;"></div>
+  <h1>⚙️ Fase 2 — Sincronização da Correia Dentada</h1>
+  <p>O virabrequim gira a <b>1200 rpm</b> com raio de 3 cm. A polia do comando tem 6 cm. Qual a rotação do comando?</p>
+  <input id="rpmComando" class="inputBox" placeholder="rpm">
+  <button class="btn" onclick="checkSala2()">Confirmar</button>
+  <div id="panel2"></div>
 </div>
 
-<!-- ============================= -->
-<!-- ======   SALA 3  ============ -->
-<!-- ============================= -->
+<!-- ===================== -->
+<!-- ====== SALA 3 ====== -->
+<!-- ===================== -->
 <div id="sala3" class="scene">
-    <h1>🔧 Sala 3 — Torque da Polia Travada</h1>
-    <p>Tau = F × d</p>
-    <p>Precisamos de <b>45 Nm</b> para soltar a polia. A chave tem <b>0,25 m</b>.</p>
-    <p>Qual força mínima deve aplicar?</p>
-
-    <input id="forcaTorque" class="inputBox" placeholder="N">
-    <button class="btn" onclick="checkSala3()">Confirmar</button>
-
-    <div id="panel3" style="margin-top:20px;"></div>
+  <h1>🔧 Fase 3 — Torque da Polia</h1>
+  <p>Torque necessário: 45 Nm. Chave: 0,25 m. Qual a força mínima?</p>
+  <input id="forcaTorque" class="inputBox" placeholder="N">
+  <button class="btn" onclick="checkSala3()">Confirmar</button>
+  <div id="panel3"></div>
 </div>
 
-<!-- ============================= -->
-<!-- ======   SALA 4  ============ -->
-<!-- ============================= -->
+<!-- ===================== -->
+<!-- ====== SALA 4 ====== -->
+<!-- ===================== -->
 <div id="sala4" class="scene">
-    <h1>💧 Sala 4 — Potência da Bomba d’Água</h1>
-    <p>P = τ × ω</p>
-    <p>A bomba precisa de <b>0,45 kW</b> e possui torque de <b>1,5 Nm</b>.</p>
-    <p>Qual rotação angular mínima (rad/s)?</p>
-
-    <input id="rotacaoBomba" class="inputBox" placeholder="rad/s">
-    <button class="btn" onclick="checkSala4()">Confirmar</button>
-
-    <div id="panel4" style="margin-top:20px;"></div>
+  <h1>💧 Fase 4 — Potência da Bomba</h1>
+  <p>P = τ × ω. Potência: 0,45 kW, torque: 1,5 Nm. Qual a rotação mínima?</p>
+  <input id="rotacaoBomba" class="inputBox" placeholder="rad/s">
+  <button class="btn" onclick="checkSala4()">Confirmar</button>
+  <div id="panel4"></div>
 </div>
 
-<!-- ============================= -->
-<!-- ======   SALA 5  ============ -->
-<!-- ============================= -->
+<!-- ===================== -->
+<!-- ====== SALA 5 ====== -->
+<!-- ===================== -->
 <div id="sala5" class="scene">
-    <h1>🔥 Sala 5 — Atrito e Escorregamento da Correia</h1>
-    <p>Fmax = μ × N</p>
-    <p>A correia suporta <b>60 N</b> de atrito máximo. O alternador exige <b>55 N</b>.</p>
-    <p>A correia escorrega?</p>
-
-    <input id="escorrega" class="inputBox" placeholder="sim / nao">
-    <button class="btn" onclick="checkSala5()">Confirmar</button>
-
-    <div id="panel5" style="margin-top:20px;"></div>
+  <h1>🔥 Fase 5 — Atrito da Correia</h1>
+  <p>Fmax = μ × N. Atrito máximo: 60 N. Força requerida: 55 N. A correia escorrega?</p>
+  <input id="escorrega" class="inputBox" placeholder="sim / nao">
+  <button class="btn" onclick="checkSala5()">Confirmar</button>
+  <div id="panel5"></div>
 </div>
 
-<!-- ============================= -->
-<!-- ======   FINAL  ============ -->
-<!-- ============================= -->
+<!-- ===================== -->
+<!-- ====== FINAL ======= -->
+<!-- ===================== -->
 <div id="final" class="scene">
-    <h1>🚗💨 VOCÊ CONSEGUIU!</h1>
-    <p>O carro liga, o motor gira suave, as correias funcionam.</p>
-    <h2>🔓 A porta da oficina abre e você escapa!</h2>
+  <h1>🚗💨 Parabéns!</h1>
+  <p>O carro liga, as correias funcionam, o motor gira suave.</p>
+  <h2>🔓 A porta da oficina se abre, você escapou!</h2>
 </div>
 
 </div>
 
 <script>
-/* ============================
-   SALA 1 — TENSÃO DA CORREIA
-============================ */
-let correia = document.getElementById("correia1");
-let panel = document.getElementById("panel");
-
+/* =====================
+   SALA 1 — TENSÃO
+===================== */
+let correia = document.getElementById("correia");
 let dragging = false;
 let offsetX = 0;
-
 const MIN = 480;
 const MAX = 520;
 
-correia.addEventListener("mousedown", e => {
-    dragging = true;
-    offsetX = e.clientX - correia.offsetLeft;
-    correia.style.cursor = "grabbing";
+correia.addEventListener("mousedown", e=>{
+  dragging=true; offsetX=e.clientX - correia.getBoundingClientRect().x;
+  correia.style.cursor="grabbing";
 });
-document.addEventListener("mouseup", () => dragging = false);
-document.addEventListener("mousemove", e => {
-    if (dragging) {
-        let x = e.clientX - offsetX;
-        correia.style.left = x + "px";
-        checkTension(x);
-    }
+document.addEventListener("mouseup", ()=>dragging=false);
+document.addEventListener("mousemove", e=>{
+  if(dragging){
+    let x = e.clientX - offsetX;
+    if(x<0) x=0; if(x>600) x=600;
+    correia.setAttribute("x", x);
+    checkTension(x);
+  }
 });
-
-function checkTension(x) {
-    if (x >= MIN && x <= MAX) {
-        panel.textContent = "Tensão PERFEITA! ✔ Clique para ir à Sala 2.";
-        panel.style.background = "rgba(0,200,0,0.6)";
-        panel.onclick = () => changeScene("sala2");
-    } else if (x < MIN) {
-        panel.textContent = "Correia FROUXA → escorrega.";
-        panel.style.background = "rgba(200,0,0,0.4)";
-    } else {
-        panel.textContent = "Correia MUITO esticada → risco de romper.";
-        panel.style.background = "rgba(200,0,0,0.4)";
-    }
+function checkTension(x){
+  let panel=document.getElementById("panel");
+  if(x>=MIN && x<=MAX){
+    panel.innerHTML="✔ Tensão perfeita! Clique para ir à fase 2.";
+    panel.style.background="rgba(0,200,0,0.6)";
+    panel.onclick=()=>changeScene("sala2");
+  }else if(x<MIN){
+    panel.innerHTML="❌ Correia frouxa, escorrega!";
+    panel.style.background="rgba(200,0,0,0.4)";
+  }else{
+    panel.innerHTML="❌ Correia muito esticada!";
+    panel.style.background="rgba(200,0,0,0.4)";
+  }
 }
 
-/* ============================
+/* =====================
    SALA 2
-============================ */
-function checkSala2() {
-    let v = Number(document.getElementById("rpmComando").value);
-    if (v === 600) {
-        document.getElementById("panel2").innerHTML =
-            "✔ Correto! 600 rpm. <br><br><button class='btn' onclick='changeScene(\"sala3\")'>Ir para a Sala 3</button>";
-    } else {
-        document.getElementById("panel2").innerHTML = "❌ Errado. Tente novamente.";
-    }
+===================== */
+function checkSala2(){
+  let v=Number(document.getElementById("rpmComando").value);
+  if(v===600){
+    document.getElementById("panel2").innerHTML="✔ Correto! 600 rpm.<br><button class='btn' onclick='changeScene(\"sala3\")'>Ir para a fase 3</button>";
+  }else{
+    document.getElementById("panel2").innerHTML="❌ Errado. Tente novamente.";
+  }
 }
 
-/* ============================
+/* =====================
    SALA 3
-============================ */
-function checkSala3() {
-    let v = Number(document.getElementById("forcaTorque").value);
-    if (v === 180) {
-        document.getElementById("panel3").innerHTML =
-            "✔ Certo! 180 N. <br><br><button class='btn' onclick='changeScene(\"sala4\")'>Ir para a Sala 4</button>";
-    } else {
-        document.getElementById("panel3").innerHTML = "❌ Errado.";
-    }
+===================== */
+function checkSala3(){
+  let v=Number(document.getElementById("forcaTorque").value);
+  if(v===180){
+    document.getElementById("panel3").innerHTML="✔ Correto! 180 N.<br><button class='btn' onclick='changeScene(\"sala4\")'>Ir para a fase 4</button>";
+  }else{
+    document.getElementById("panel3").innerHTML="❌ Errado. Tente novamente.";
+  }
 }
 
-/* ============================
+/* =====================
    SALA 4
-============================ */
-function checkSala4() {
-    let v = Number(document.getElementById("rotacaoBomba").value);
-    if (v === 300) {
-        document.getElementById("panel4").innerHTML =
-            "✔ Correto! 300 rad/s.<br><br><button class='btn' onclick='changeScene(\"sala5\")'>Ir para a Sala 5</button>";
-    } else {
-        document.getElementById("panel4").innerHTML = "❌ Não é isso.";
-    }
+===================== */
+function checkSala4(){
+  let v=Number(document.getElementById("rotacaoBomba").value);
+  if(v===300){
+    document.getElementById("panel4").innerHTML="✔ Correto! 300 rad/s.<br><button class='btn' onclick='changeScene(\"sala5\")'>Ir para a fase 5</button>";
+  }else{
+    document.getElementById("panel4").innerHTML="❌ Errado. Tente novamente.";
+  }
 }
 
-/* ============================
+/* =====================
    SALA 5
-============================ */
-function checkSala5() {
-    let v = document.getElementById("escorrega").value.toLowerCase();
-    if (v === "nao" || v === "não") {
-        document.getElementById("panel5").innerHTML =
-            "✔ Correto! A correia NÃO escorrega.<br><br><button class='btn' onclick='changeScene(\"final\")'>Finalizar</button>";
-    } else {
-        document.getElementById("panel5").innerHTML = "❌ Errado.";
-    }
+===================== */
+function checkSala5(){
+  let v=document.getElementById("escorrega").value.toLowerCase();
+  if(v==="nao" || v==="não"){
+    document.getElementById("panel5").innerHTML="✔ Correto! A correia não escorrega.<br><button class='btn' onclick='changeScene(\"final\")'>Finalizar</button>";
+  }else{
+    document.getElementById("panel5").innerHTML="❌ Errado. Tente novamente.";
+  }
 }
 
-/* ============================
-   Troca de cenas
-============================ */
-function changeScene(id) {
-    document.querySelectorAll(".scene").forEach(s => s.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
+/* =====================
+   Troca de fases
+===================== */
+function changeScene(id){
+  document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
 }
 </script>
 
