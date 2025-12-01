@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Correia Escape Room — Fase 2</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: #fff;
+    overflow: hidden;
+    text-align: center;
+  }
+  h1 { margin-top: 20px; }
+  svg { margin-top: 30px; }
+  .polia {
+    fill: #444;
+    stroke: #888;
+    stroke-width: 6;
+  }
+  #panel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    padding: 15px;
+    font-size: 18px;
+    height: 160px;
+    overflow-y: auto;
+  }
+  input {
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #555;
+    width: 100px;
+    margin-top: 5px;
+    text-align: center;
+  }
+  .btn {
+    margin-top: 10px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    background: #333;
+    color: #fff;
+    cursor: pointer;
+  }
+  .btn:hover { background: #555; }
+</style>
+</head>
+<body>
+<h1>⚙️ Fase 2 — Sincronização da Correia Dentada</h1>
+
+<svg id="motor" width="600" height="300">
+  <circle id="poliaVirabrequim" class="polia" cx="150" cy="150" r="50"></circle>
+  <circle id="poliaComando" class="polia" cx="450" cy="150" r="70"></circle>
+  <line id="correia" x1="150" y1="150" x2="450" y2="150" stroke="#222" stroke-width="20" stroke-linecap="round"/>
+</svg>
+
+<div id="panel">
+  Mini-desafio 1: Qual a rotação da polia do comando se o virabrequim gira 1200 rpm?<br>
+  Fórmula: ω2 = ω1 * r1/r2<br>
+</div>
+
+<!-- Inputs -->
+<input id="resposta1" placeholder="rpm">
+<button class="btn" onclick="checkDesafio(0)">Confirmar</button>
+
+<input id="resposta2" placeholder="rpm" style="display:none;">
+<button id="btn2" class="btn" onclick="checkDesafio(1)" style="display:none;">Confirmar</button>
+
+<input id="resposta3" placeholder="rpm" style="display:none;">
+<button id="btn3" class="btn" onclick="checkDesafio(2)" style="display:none;">Confirmar</button>
+
+<input id="resposta4" placeholder="rpm" style="display:none;">
+<button id="btn4" class="btn" onclick="checkDesafio(3)" style="display:none;">Confirmar</button>
+
+<input id="resposta5" placeholder="rpm" style="display:none;">
+<button id="btn5" class="btn" onclick="checkDesafio(4)" style="display:none;">Confirmar</button>
+
+<script>
+// Mini-desafios
+let desafios = [
+  {resposta:600, feito:false, msg:"Mini-desafio 1: Calcule rotação do comando"},
+  {resposta:650, feito:false, msg:"Mini-desafio 2: Ajuste para sincronização"},
+  {resposta:620, feito:false, msg:"Mini-desafio 3: Verifique alinhamento da correia"},
+  {resposta:630, feito:false, msg:"Mini-desafio 4: Corrija folga"},
+  {resposta:615, feito:false, msg:"Mini-desafio 5: Tensão final correta"}
+];
+
+function checkDesafio(idx){
+  let input = document.getElementById(`resposta${idx+1}`);
+  let val = Number(input.value);
+  let panel = document.getElementById("panel");
+
+  if(val === desafios[idx].resposta){
+    desafios[idx].feito = true;
+    panel.innerHTML = `✔ ${desafios[idx].msg} concluído!`;
+    input.style.display="none";
+    document.getElementById(`btn${idx+1}`).style.display="none";
+
+    // Mostra próximo input se existir
+    if(idx+1 < desafios.length){
+      document.getElementById(`resposta${idx+2}`).style.display="inline-block";
+      document.getElementById(`btn${idx+2}`).style.display="inline-block";
+    } else {
+      panel.innerHTML += "<br>🎉 Todos mini-desafios concluídos! Avance para a Fase 3!";
+      panel.style.background="rgba(0,200,0,0.6)";
+    }
+  } else {
+    panel.innerHTML = `❌ Errado! Tente novamente.`;
+    panel.style.background="rgba(200,0,0,0.4)";
+  }
+}
+</script>
+</body>
+</html>
